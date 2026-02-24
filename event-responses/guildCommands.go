@@ -8,7 +8,7 @@ import (
 	"tpc-discord-bot/commands/giveaway"
 	"tpc-discord-bot/commands/training"
 	"tpc-discord-bot/commands/vatsim"
-
+	"tpc-discord-bot/commands/suggestions"
 	"github.com/bwmarrin/discordgo"
 )
 
@@ -28,6 +28,9 @@ func GuildCommands(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		},
 		"fcp-link": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			go fcp.SendFCPLink(s, i)
+		},
+		"staff-vacancies": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
+			go fcp.SendStaffVacancies(s, i)
 		},
 		"get-callsign": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			go fcp.GetFcpCallsign(s, i)
@@ -76,6 +79,12 @@ func GuildCommands(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		},
 		"training-faq": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			go general.HandleTrainingFAQ(s, i)
+		},
+		"idea": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
+			go suggestions.IdeaCommand(s, i)
+		},
+		"idea-admin": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
+			go suggestions.IdeaAdminCommand(s, i)
 		},
 	}
 	if h, ok := GuildCommandHandler[i.ApplicationCommandData().Name]; ok {
